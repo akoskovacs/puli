@@ -63,6 +63,7 @@ my %keywords = (
     'nagyobb'    =>   '>',
     'kisebb'     =>   '<',
     'hamis'      =>   '0',
+    'újsor'      =>   'endl',
     'ha'         =>   'if (',
     'amíg'       =>   'while (',
     'kezdet'     =>   'int main(int argc, char **argv) {',
@@ -98,7 +99,7 @@ sub process_file($) {
     print " [F] $file\n";
     &replace_all();
     &generate_code($file);
-    #print `g++ $out_file -o $wdir/$bin_name`;
+    print `g++ $out_file -o $bin_name`;
 }
 
 sub replace_all {
@@ -118,10 +119,8 @@ sub replace_all {
 
 sub parse_func($) {
     my $line_ref = shift;
-    if ($$line_ref =~ m/->/) {
-        if ($$line_ref =~ m/fgv\s+(\w+)\s*\((.*)\)\s*->\s*(\w+)/) {
-            &create_function($line_ref, $3, $1, $2);
-        }
+    if ($$line_ref =~ m/fgv\s+(\w+)\s*\((.*)\)\s*<-\s*(\w+)/) {
+        &create_function($line_ref, $3, $1, $2);
     } elsif ($$line_ref =~ m/fgv\s+(\w+)\((.*)\)/){ 
         &create_function($line_ref, 'void', $1, $2);
     } else {
@@ -144,7 +143,7 @@ sub create_function($$$) {
 sub generate_code($) {
     my $file = shift;
     $out_file = $file;
-    $out_file =~ s/\.pu$/\.c++/i;
+    $out_file =~ s/\.pu$/\.cpp/i;
     $out_file = '/tmp/' . $out_file;
     
     unshift @source, @header;
