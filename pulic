@@ -52,21 +52,33 @@ my %keywords = (
     'ki'         =>   'cout',
     'be'         =>   'cin',
     'hiba'       =>   'cerr',
+    'nem'        =>   '!',
     'sorozat'    =>   'enum',
     'ref'        =>   '&',
     'akkor'      =>   ') {',
     'tedd'       =>   'do ',
     'ezt'        =>   '{',
-    'bool'       =>   'unsgined char',
-    'igaz'       =>   '1',
     'egyenlő'    =>   '==',
     'nagyobb'    =>   '>',
     'kisebb'     =>   '<',
     'hamis'      =>   '0',
+    'igaz'       =>   '1',
     'újsor'      =>   'endl',
+    'méret'      =>   'size_t',
+    'regiszter'  =>   'register',
+    'méreted'    =>   'sizeof',
     'ha'         =>   'if (',
+    'hosszú'     =>   'long',
+    'konst'      =>   'const',
+    'esetleg'    =>   'else if (',
+    'egyébként'  =>   '} else {',
+    'eset'       =>   'case',
+    'választ'    =>   'switch',
+    'alap'       =>   'default',
     'amíg'       =>   'while (',
     'kezdet'     =>   'int main(int argc, char **argv) {',
+    'vagy'       =>   '||',
+    'és'         =>   '&&',
     'addig'      =>   'for ('
 );
 
@@ -100,10 +112,16 @@ sub process_file($) {
     &replace_all();
     &generate_code($file);
     print `g++ $out_file -o $bin_name`;
+    print "\n";
 }
 
 sub replace_all {
+    my $str = ();
     foreach my $line (@source) {
+        $str = "";
+        if ($line =~ m/\"(.+)\"/) {
+            $str = $1;
+        }
         foreach (keys %keywords) {
             if ($line =~ m/^\s*$/) {
                 last;
@@ -112,6 +130,9 @@ sub replace_all {
         } # keys %keywords
         if ($line =~ m/fgv/) {
             &parse_func(\$line);
+        }
+        if ($str ne "") {
+            $line =~ s/\".*\"/\"$str\"/;
         }
         $lnum++;
     } # @source
