@@ -145,7 +145,7 @@ sub parse_func($) {
     } elsif ($$line_ref =~ m/fgv\s+(\w+)\((.*)\)/){ 
         &create_function($line_ref, 'void', $1, $2);
     } else {
-        die "[HIBA]: Rossz függvénymegadás, az $lnum. sorban!";
+        die "[HIBA]: Rossz függvénymegadás, a(z) $lnum. sorban!";
     }
 }
 
