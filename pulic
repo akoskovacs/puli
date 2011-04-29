@@ -24,7 +24,7 @@
 use strict;
 use warnings;
 
-my $VERSION = "v0.1-alpha";
+my $VERSION = "v0.1-beta";
 my $bin_name = ();
 my @source = ();
 my $out_file = ();
