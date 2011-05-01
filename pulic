@@ -83,6 +83,7 @@ my %keywords = (
     'vagy'       =>   '||',
     'és'         =>   '&&',
     'addig'      =>   'for (',
+    'mindig'     =>   'for (;;) {'
     'vélszám'    =>   'rand'
 );
 
