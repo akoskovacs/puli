@@ -32,8 +32,11 @@ my $wdir = `pwd`;
 my $lnum = ();
 my @header = (
     "#include <iostream>\n", 
+    "#include <cstdio>\n",
+    "#include <ctime>\n",
+    "#include <cstdlib>\n",
     "#include <string>\n\n",
-    "using namespace std;\n"
+    "using namespace std;\n\n"
 );
 
 my %keywords = (
@@ -76,10 +79,11 @@ my %keywords = (
     'választ'    =>   'switch',
     'alap'       =>   'default',
     'amíg'       =>   'while (',
-    'kezdet'     =>   'int main(int argc, char **argv) {',
+    'kezdet'     =>   'int main(int argc, char **argv) {srand(time(NULL));',
     'vagy'       =>   '||',
     'és'         =>   '&&',
-    'addig'      =>   'for ('
+    'addig'      =>   'for (',
+    'vélszám'    =>   'rand'
 );
 
 print "Puli Compiler $VERSION\n" .
