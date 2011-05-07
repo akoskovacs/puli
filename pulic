@@ -75,15 +75,12 @@ my %keywords = (
     'konst'      =>   'const',
     'esetleg'    =>   'else if (',
     'egyébként'  =>   '} else {',
-    'eset'       =>   'case',
-    'választ'    =>   'switch',
-    'alap'       =>   'default',
     'amíg'       =>   'while (',
     'kezdet'     =>   'int main(int argc, char **argv) {srand(time(NULL));',
     'vagy'       =>   '||',
     'és'         =>   '&&',
     'addig'      =>   'for (',
-    'mindig'     =>   'for (;;) {'
+    'mindig'     =>   'for (;;) {',
     'vélszám'    =>   'rand'
 );
 
@@ -104,6 +101,7 @@ foreach my $file (@ARGV) {
     $lnum = 1;
     &process_file($file);
 }
+print "\n";
 
 sub process_file($) {
     my $file = shift;
@@ -117,7 +115,6 @@ sub process_file($) {
     &replace_all();
     &generate_code($file);
     print `g++ $out_file -o $bin_name`;
-    print "\n";
 }
 
 sub replace_all {
