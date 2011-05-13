@@ -1,0 +1,5 @@
+// The most simpliest Puli program, the tipical hello world.
+
+kezdet
+    ki << "Helló, világ!" << újsor;
+vég

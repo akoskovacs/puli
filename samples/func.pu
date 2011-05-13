@@ -1,0 +1,25 @@
+// Example for function usage
+
+// This is not a real function,
+// this is the 'program trunk'
+kezdet 
+    szöveg nev;
+    nev = nev_beker(); // call nev_beker()
+    koszon(nev);       // call koszon() with parameter nev
+vég
+
+// This function return a with the
+// name of the user, with the string
+// type of 'szöveg'.
+fgv nev_beker() <- szöveg
+    szöveg neved;
+    ki << "Kérek a neved: ";
+    be >> neved;
+    vissz neved;
+vég
+
+// A void function, with the default parameter
+// "Senki".
+fgv koszon(szöveg kinek = "Senki")
+    ki << "Szia " << kinek << "!" << újsor; 
+vég

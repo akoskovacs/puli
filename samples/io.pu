@@ -1,0 +1,12 @@
+// An easy example for the io handling, just like C++.
+// NOTE: To start a newline, it must put the 'újsor' to the stream.
+
+kezdet
+    egész szam;
+    // szöveg output
+    ki << "Kérek egy számot: ";
+    // egész input
+    be >> szam;
+    // Chained output, with a newline character.
+    ki >> "A szám kétszerese: " << szam << újsor;
+vég
