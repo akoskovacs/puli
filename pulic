@@ -31,13 +31,22 @@ my @source = ();
 my $out_file = ();
 my $wdir = `pwd`;
 my $lnum = ();
+my $randfunc = <<'EOF';
+inline int randint(int max) 
+{
+    srand(time(NULL)); 
+    return rand() % max;
+} 
+EOF
+
 my @header = (
     "#include <iostream>\n", 
     "#include <cstdio>\n",
     "#include <ctime>\n",
     "#include <cstdlib>\n",
     "#include <string>\n\n",
-    "using namespace std;\n\n"
+    "using namespace std;\n\n",
+    $randfunc
 );
 
 my %keywords = (
@@ -77,12 +86,12 @@ my %keywords = (
     'esetleg'    =>   '} else if (',
     'egyébként'  =>   '} else {',
     'amíg'       =>   'while (',
-    'kezdet'     =>   "int main(int argc, char **argv) {srand(time(NULL));\n",
+    'kezdet'     =>   "int main(int argc, char **argv)\n{\n",
     'vagy'       =>   '||',
     'és'         =>   '&&',
     'addig'      =>   'for (',
     'mindig'     =>   'for (;;) {',
-    'vélszám'    =>   'rand'
+    'vélszám'    =>   'randint'
 );
 
 print "Puli Compiler $VERSION\n" .
