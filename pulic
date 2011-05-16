@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+use File::Basename;
 
 use strict;
 use warnings;
@@ -73,10 +74,10 @@ my %keywords = (
     'ha'         =>   'if (',
     'hosszú'     =>   'long',
     'konst'      =>   'const',
-    'esetleg'    =>   'else if (',
+    'esetleg'    =>   '} else if (',
     'egyébként'  =>   '} else {',
     'amíg'       =>   'while (',
-    'kezdet'     =>   'int main(int argc, char **argv) {srand(time(NULL));',
+    'kezdet'     =>   "int main(int argc, char **argv) {srand(time(NULL));\n",
     'vagy'       =>   '||',
     'és'         =>   '&&',
     'addig'      =>   'for (',
@@ -118,56 +119,67 @@ sub process_file($) {
 }
 
 sub replace_all {
-    my $str = ();
+    my $str = "";
     foreach my $line (@source) {
-        $str = "";
+        # TODO: Save and recover _every_ strings in the quotes
         if ($line =~ m/\"(.+)\"/) {
             $str = $1;
         }
+
         foreach (keys %keywords) {
-            if ($line =~ m/^\s*$/) {
+            if ($line =~ m/^\s*$/ or $line =~ m/^\s*\/\//) {
                 last;
             }
-            $line =~ s/$_/$keywords{$_}/g;
+            $line =~ s/\b$_\b/$keywords{$_}/g;
+            $line =~ s/([;<>=\*\-\+\\\/])$_/$1$keywords{$_}/g;
+            $line =~ s/$_([;<>=\*\-\+\\\/])/$keywords{$_}$1/g;
         } # keys %keywords
         if ($line =~ m/fgv/) {
             &parse_func(\$line);
         }
-        if ($str ne "") {
-            $line =~ s/\".*\"/\"$str\"/;
+   
+        if ($str ne "") { 
+           $line =~ s/\".+\"/\"$str\"/; 
         }
+        $str = "";
         $lnum++;
     } # @source
 }
 
 sub parse_func($) {
-    my $line_ref = shift;
+    my $line_ref    = shift;
     if ($$line_ref =~ m/fgv\s+(\w+)\s*\((.*)\)\s*<-\s*(\w+)/) {
         &create_function($line_ref, $3, $1, $2);
-    } elsif ($$line_ref =~ m/fgv\s+(\w+)\((.*)\)/){ 
+    } elsif ($$line_ref =~ m/fgv\s+(\w+)\s*\((.*)\)/){ 
         &create_function($line_ref, 'void', $1, $2);
     } else {
         die "[HIBA]: Rossz függvénymegadás, a(z) $lnum. sorban!";
     }
 }
 
-sub create_function($$$) {
-    my $line_ref = shift;
-    my $ret_type = shift;
-    my $fn_name = shift;
-    my $params = shift;
+sub create_function($$$$) {
+    my $line_ref    = shift;
+    my $ret_type    = shift;
+    my $fn_name     = shift;
+    my $params      = shift;
+    my $head        = ();
 
-    my $head = "$ret_type $fn_name($params)";
-    push @header, $head . ";\n";
-    
-    $$line_ref = $head . " {\n";
+    $$line_ref = "$ret_type $fn_name($params)\n{\n";
+
+    #$params =~ s/=[^,\)]*([,\)])/\1/; # TODO: Make _every_ value usable as default
+    # Cut out the default parameters for the prototype
+
+    $params =~ s/=\s*".*"//;    
+    $head = "$ret_type $fn_name($params);\n";
+    push @header, $head;
 }
 
 sub generate_code($) {
-    my $file = shift;
-    $out_file = $file;
-    $out_file =~ s/\.pu$/\.cpp/i;
-    $out_file = '/tmp/' . $out_file;
+    my $file        = shift;
+
+    my @out_file    = ();
+    @out_file       = fileparse('/' . $file, '.pu');
+    $out_file       = '/tmp/' . $out_file[0] . '.cpp';
     
     unshift @source, @header;
 
