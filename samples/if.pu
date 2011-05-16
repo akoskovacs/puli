@@ -1,0 +1,18 @@
+// If-style puli statements
+
+kezdet
+    egész fok = 0;
+
+    ki << "Add meg a víz hőfokát: ";
+    be >> fok; 
+
+    ha fok <= 0 akkor
+        ki << "Jég";
+    esetleg fok >= 100 akkor
+        ki << "Gőz";
+    egyébként
+        ki << "Normál víz";
+    vég
+    
+    ki << újsor;
+vég
