@@ -1,5 +1,5 @@
 // An easy example for the io handling, just like C++.
-// NOTE: To start a newline, it must put the 'újsor' to the stream.
+// NOTE: To start a newline, you must put the 'újsor' to the stream.
 
 kezdet
     egész szam;
