@@ -8,9 +8,8 @@ kezdet
     koszon(nev);       // call koszon() with parameter nev
 vég
 
-// This function return a with the
-// name of the user, with the string
-// type of 'szöveg'.
+// This function return (the type of 'szöveg')
+// with the name of the user (from the input).
 fgv nev_beker() <- szöveg
     szöveg neved;
     ki << "Kérek a neved: ";
@@ -19,7 +18,8 @@ fgv nev_beker() <- szöveg
 vég
 
 // A void function, with the default parameter
-// "Senki".
+// "Senki". The default parameters must be a
+// a szöveg in quotes.
 fgv koszon(szöveg kinek = "Senki")
     ki << "Szia " << kinek << "!" << újsor; 
 vég
