@@ -29,7 +29,7 @@ use warnings;
 our($opt_t, $opt_k, $opt_h);
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 
-my $VERSION = "v0.1-beta";
+my $VERSION = "v0.1";
 my $bin_name = ();
 my @source = ();
 my $out_file = ();
