@@ -21,9 +21,13 @@
 # THE SOFTWARE.
 
 use File::Basename;
+use Getopt::Std;
 
 use strict;
 use warnings;
+
+our($opt_t, $opt_k, $opt_h);
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
 
 my $VERSION = "v0.1-beta";
 my $bin_name = ();
@@ -94,6 +98,10 @@ my %keywords = (
     'vélszám'    =>   'randint'
 );
 
+#==~-------------------------------------------~==#
+#                   Entry Point                   #
+#==~-------------------------------------------~==#
+
 print "Puli Compiler $VERSION\n" .
     "Copyright (C) Ákos Kovács - 2011\n\n";
 
@@ -101,17 +109,38 @@ if (not defined($ARGV[0])) {
         die "[HIBA]: Nincs fájl!\n";
 }
 
-$bin_name = $ARGV[0];
-$bin_name =~ s/\.pu$//i;
+&getopts("htk:");
+
+if ($opt_h) {
+    &print_help();
+}
+
+sub HELP_MESSAGE {
+    &print_help();
+}
 
 foreach my $file (@ARGV) {
     if (!-e $file) {
         die "[HIBA]: A fájl nem található!\n";
     }
     $lnum = 1;
+    if (defined($opt_t)) {
+        $bin_name = $file;
+    } else {
+    }
+        if (defined($opt_k)) {
+            $bin_name = $opt_k;
+        } else {
+            $bin_name = $ARGV[0];
+        }
+    $bin_name =~ s/\.pu$//i;
     &process_file($file);
 }
 print "\n";
+
+#==~-------------------------------------------~==#
+#                End of main program              #
+#==~-------------------------------------------~==#
 
 sub process_file($) {
     my $file = shift;
@@ -198,4 +227,12 @@ sub generate_code($) {
     print(OUT @source);
     
     close (OUT);
+}
+
+sub print_help {
+    print "Opciók:\n" .
+    "\t-t\tTöbb programfájl különfordítása (külön binárisként)\n" .
+    "\t-k\tA kimeneti bináris fájl neve (alapértelmezetten a fájl neve .pu nélkül)\n" .
+    "\t-h vagy --help\tEz az üzenet\n\n";
+    exit(0);
 }
