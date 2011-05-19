@@ -127,12 +127,12 @@ foreach my $file (@ARGV) {
     if (defined($opt_t)) {
         $bin_name = $file;
     } else {
-    }
         if (defined($opt_k)) {
             $bin_name = $opt_k;
         } else {
             $bin_name = $ARGV[0];
         }
+    }
     $bin_name =~ s/\.pu$//i;
     &process_file($file);
 }
