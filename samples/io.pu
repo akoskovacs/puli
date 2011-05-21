@@ -8,5 +8,6 @@ kezdet
     // egész input
     be >> szam;
     // Chained output, with a newline character.
+    szam * 2;
     ki << "A szám kétszerese: " << szam << újsor;
 vég
