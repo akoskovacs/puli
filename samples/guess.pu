@@ -1,0 +1,23 @@
+kezdet
+    egész lepes = 1;
+    egész szam = vélszám(100);
+    egész sajat;
+
+    ki << "Gondoltam egy számot 0 és 100 között. Találd ki!" << újsor; 
+
+    mindig
+        ki << "Szerintem a szám: ";
+        be >> sajat; 
+        ha sajat > szam akkor
+            ki << "A szám kisebb!" << újsor;
+            lepes++;
+        esetleg sajat < szam akkor
+            ki << "A szám nagyobb!" << újsor;
+            lepes++;
+        egyébként
+            ki << "Gratulálok, " << lepes << " lépésben találtad ki!"
+                << újsor;
+            megáll;
+        vég
+    vég
+vég
