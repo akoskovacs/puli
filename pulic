@@ -156,12 +156,19 @@ sub process_file($) {
     print `g++ $out_file -o $bin_name`;
 }
 
+# The replacer function. It replaces everything, if it recognized as
+# a keyword, from the %keywords hash. It protect the strings from the
+# accidental overwriting. The subrountine uses regexes, which cares
+# to replace keywords which aligned at word boundaries, except some
+# special tokens like ";,<,>,etc".
 sub replace_all {
-    my $str = "";
+    my @strings = ();
     foreach my $line (@source) {
-        # TODO: Save and recover _every_ strings in the quotes
-        if ($line =~ m/\"(.+)\"/) {
-            $str = $1;
+        # Save all strings to the @strings list to protect, from overwriting
+        # when they keyword replacement occures. The "[string]" will replaced 
+        # with the __pulic__string__marker__. Not the most elegant solvage. :-(
+        while ($line =~ s/\"(.+)\"/__pulic__string__marker__/g) {
+            push @strings, $1;
         }
 
         foreach (keys %keywords) {
@@ -169,17 +176,20 @@ sub replace_all {
                 last;
             }
             $line =~ s/\b$_\b/$keywords{$_}/g;
-            $line =~ s/([;<>=\*\-\+\\\/])$_/$1$keywords{$_}/g;
-            $line =~ s/$_([;<>=\*\-\+\\\/])/$keywords{$_}$1/g;
+            $line =~ s/([;<>=,\*\-\+\\\/])$_/$1$keywords{$_}/g;
+            $line =~ s/$_([;<>=,\*\-\+\\\/])/$keywords{$_}$1/g;
         } # keys %keywords
         if ($line =~ m/fgv/) {
             &parse_func(\$line);
         }
-   
-        if ($str ne "") { 
-           $line =~ s/\".+\"/\"$str\"/; 
+
+        # Write-back every string (if have) to their place.   
+        if (defined(@strings)) { 
+            foreach my $string (@strings) {
+                $line =~ s/__pulic__string__marker__/\"$string\"/;
+            }
         }
-        $str = "";
+        undef(@strings);
         $lnum++;
     } # @source
 }

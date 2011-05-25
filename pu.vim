@@ -9,7 +9,7 @@ if exists("b:current_syntax")
 endif
 
 " A bunch of useful C keywords
-syn keyword	cStatement	ugrás vissz tovább vég ezt egyesített fgv egyenlő nem kisebb nagyobb hamis igaz ki be hiba kezdet
+syn keyword	cStatement	ugrás vissz tovább vég ezt egyesített fgv egyenlő nem kisebb nagyobb hamis igaz ki be hiba kezdet midig 
 syn keyword	cLabel		választ alap eset sorozat unió ref újsor
 syn keyword	cConditional	ha akkor esetleg egyébként
 syn keyword	cRepeat		addig amíg vagy és tedd 
