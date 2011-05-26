@@ -36,11 +36,17 @@ my $out_file = ();
 my $wdir = `pwd`;
 my $lnum = ();
 my $randfunc = <<'EOF';
+
+#define argumentum(ord) \
+(argc <= (ord)) ? argv[(ord)] : "semmi"
+#define argumentumok    argc-1
+    
 inline int randint(int max) 
 {
     srand(time(NULL)); 
     return rand() % max;
 } 
+
 EOF
 
 my @header = (
@@ -95,6 +101,7 @@ my %keywords = (
     'és'         =>   '&&',
     'addig'      =>   'for (',
     'mindig'     =>   'for (;;) {',
+    'prognév'    =>   'string(argv[0])',
     'vélszám'    =>   'randint'
 );
 
@@ -156,9 +163,9 @@ sub process_file($) {
     print `g++ $out_file -o $bin_name`;
 }
 
-# The replacer function. It replaces everything, if it recognized as
-# a keyword, from the %keywords hash. It protect the strings from the
-# accidental overwriting. The subrountine uses regexes, which cares
+# It replaces everything line-by-line in the @source, if it recognized
+# as a keyword, from the %keywords hash. It protect the strings from
+# the accidental overwriting. The subrountine uses regexes, which cares
 # to replace keywords which aligned at word boundaries, except some
 # special tokens like ";,<,>,etc".
 sub replace_all {
