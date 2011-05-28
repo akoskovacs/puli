@@ -186,17 +186,18 @@ sub replace_all {
             $line =~ s/([;<>=,\*\-\+\\\/])$_/$1$keywords{$_}/g;
             $line =~ s/$_([;<>=,\*\-\+\\\/])/$keywords{$_}$1/g;
         } # keys %keywords
-        if ($line =~ m/fgv/) {
-            &parse_func(\$line);
-        }
-
         # Write-back every string (if have) to their place.   
-        if (defined(@strings)) { 
+        if (@strings) {
             foreach my $string (@strings) {
                 $line =~ s/__pulic__string__marker__/\"$string\"/;
             }
         }
         undef(@strings);
+
+        if ($line =~ m/fgv/) {
+            &parse_func(\$line);
+        }
+
         $lnum++;
     } # @source
 }
