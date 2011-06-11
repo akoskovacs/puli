@@ -1,0 +1,16 @@
+// Ciklusok
+
+kezdet
+    egész hatv = 1, ind = 0;
+    
+    amíg hatv < (65536 * 10) addig
+        ki << "Kettő " << ind
+            << "-dik hatványa: " << hatv << újsor;
+        hatv = hatv * 2;
+        ind++;
+    vég
+
+    amíg egész i = 0; i < 10; i++ addig
+       ki << i << újsor; 
+    vég
+vég
