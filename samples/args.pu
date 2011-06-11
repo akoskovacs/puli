@@ -1,0 +1,15 @@
+// Argumentum kezelés
+
+kezdet
+    ki << "A program neve " << prognév << újsor;
+
+    ha argumentumok > 0 akkor
+        ki << "Argumentumai:" << újsor;
+    egyébként
+        vissz 0;
+    vég
+
+    amíg egész i = 0; i < argumentumok; i++ addig
+        ki << "  " << i + 1 << ". - " << argumentum(i) << újsor;
+    vég
+vég
