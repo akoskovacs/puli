@@ -37,10 +37,16 @@ my $wdir = `pwd`;
 my $lnum = ();
 my $randfunc = <<'EOF';
 
-#define argumentum(ord) \
-(argc <= (ord)) ? argv[(ord)] : "semmi"
 #define argumentumok    argc-1
-    
+#define argumentum(ord) get_arg((ord), argc, argv) 
+inline string get_arg(int ord, int argc, char **argv)
+{
+    if (ord >= argc)
+        return string("semmi");
+    else
+        return string(argv[ord]);
+}
+
 inline int randint(int max) 
 {
     srand(time(NULL)); 
