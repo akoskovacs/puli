@@ -44,7 +44,7 @@ inline string get_arg(int ord, int argc, char **argv)
     if (ord >= argc)
         return string("semmi");
     else
-        return string(argv[ord]);
+        return string(argv[ord+1]);
 }
 
 inline int randint(int max) 
