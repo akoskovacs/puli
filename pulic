@@ -95,11 +95,9 @@ my %keywords = (
     'konst'      =>   'const',
     'esetleg'    =>   '} else if (',
     'egyébként'  =>   '} else {',
-    'amíg'       =>   'while (',
     'kezdet'     =>   "int main(int argc, char **argv)\n{\n",
     'vagy'       =>   '||',
     'és'         =>   '&&',
-    'addig'      =>   'for (',
     'mindig'     =>   'for (;;) {',
     'prognév'    =>   'string(argv[0])',
     'vélszám'    =>   'randint'
@@ -198,6 +196,10 @@ sub replace_all {
             &parse_func(\$line);
         }
 
+        if ($line =~ /amíg/) {
+            &parse_while(\$line);
+        }
+
         $lnum++;
     } # @source
 }
@@ -211,6 +213,12 @@ sub parse_func($) {
     } else {
         die "[HIBA]: Rossz függvénymegadás, a(z) $lnum. sorban!";
     }
+}
+
+sub parse_while($) {
+    my $line_ref    = shift;
+    $$line_ref =~ s/amíg\s*([^;]*)\s*;([^;]*)\s*;([^;]*)\s*addig/for ($1;$2;$3) {/g;
+    $$line_ref =~ s/amíg\s*([^;]*)\s*addig/while ($1) {/g;
 }
 
 sub create_function($$$$) {
