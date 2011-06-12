@@ -1,13 +1,13 @@
-// An easy example for the io handling, just like C++.
-// NOTE: To start a newline, you must put the 'újsor' to the stream.
+// Egyszerű C++ stílusú B/K 
+// Az új sor kezdéséhez, szükséges az entert is kiírni az 'újsor'-ral
 
 kezdet
     egész szam;
-    // szöveg output
+    // szöveg kivitel
     ki << "Kérek egy számot: ";
-    // egész input
+    // egész beolvasása, másolása a szam változóba
     be >> szam;
-    // Chained output, with a newline character.
     szam = szam * 2;
+    // Láncolt kimenet
     ki << "A szám kétszerese: " << szam << újsor;
 vég

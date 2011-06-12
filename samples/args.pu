@@ -1,15 +1,22 @@
-// Argumentum kezelés
+// Argumentum kezelés példa
 
 kezdet
+    // A program nevét a szöveg típusó előre definiált
+    // változó adja
     ki << "A program neve " << prognév << újsor;
 
+    // Az agrumentumok számát pedig az argumnetumok nevű
+    // egész változó. A nulla jelöli a parancssori argumentum
+    // nélküli indítást.
     ha argumentumok > 0 akkor
         ki << "Argumentumai:" << újsor;
     egyébként
-        vissz 0;
+        vissz 0; 
     vég
 
     amíg egész i = 0; i < argumentumok; i++ addig
+    // Az argumentumok számozása nullától kezdődik, és az arumentum(hanyadik)
+    // függvénnyel kérdezhető le.
         ki << "  " << i + 1 << ". - " << argumentum(i) << újsor;
     vég
 vég

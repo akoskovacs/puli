@@ -1,10 +1,13 @@
+// Egyszerű tippelős játék
+
 kezdet
     egész lepes = 1;
-    egész szam = vélszám(100);
+    egész szam = vélszám(100); // Nullától paraméteréig ad egy egész vél. számot
     egész sajat;
 
     ki << "Gondoltam egy számot 0 és 100 között. Találd ki!" << újsor; 
 
+    // Végtelen ciklus ugyanaz mint az "amig igaz addig" ciklus
     mindig
         ki << "Szerintem a szám: ";
         be >> sajat; 
@@ -17,7 +20,7 @@ kezdet
         egyébként
             ki << "Gratulálok, " << lepes << " lépésben találtad ki!"
                 << újsor;
-            megáll;
+            megáll; // Kilépés a ciklusból
         vég
     vég
 vég

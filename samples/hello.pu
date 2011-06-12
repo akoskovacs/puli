@@ -1,4 +1,4 @@
-// The most simpliest Puli program, the tipical hello world.
+// Az egyik legegyszerübb Puli program
 
 kezdet
     ki << "Helló, világ!" << újsor;

@@ -1,25 +1,40 @@
-// Example for function usage
+// Függvény és paraméterek példa
 
-// This is not a real function,
-// this is the 'program trunk'
+/*
+ * A program a kezdet és a vég kulcsszó között iródik.
+ * Az ezek közötti kód a programtörzs. Valójában nem
+ * függvény, de létezik visszatérési értéke, ami a 
+ * program futásának eredménye lesz.
+*/
 kezdet 
     szöveg nev;
-    nev = nev_beker(); // call nev_beker()
-    koszon(nev);       // call koszon() with parameter nev
+    nev = nev_beker();      // nev_beker() hívása,
+                            // a nev változóba íródik
+    ha nev == "\n" akkor
+        koszon();           // nincs paraméter, az alapért.
+                            // paraméter lesz átadva
+    egyébként
+        koszon(nev);        // koszon() hívása a nev átadásával
+    vég
 vég
 
-// This function return (the type of 'szöveg')
-// with the name of the user (from the input).
+/*
+ * Ez a függvény szöveg típusú értékkel tér vissza
+ * és nem kap paramétert.
+*/
 fgv nev_beker() <- szöveg
     szöveg neved;
     ki << "Kérek a neved: ";
     be >> neved;
-    vissz neved;
+    vissz neved; // Itt történik az érték visszaadás
 vég
 
-// A void function, with the default parameter
-// "Senki". The default parameters must be a
-// a szöveg in quotes.
+/*
+ * Ez a föggvény viszont semmien értéket nem ad. Valójában
+ * 'semmi' típusú, de az egyszerűség kedvéért ez elhagyható.
+ * Ha híváskor nem adunk neki értéket, alapértelmezett paraméterként
+ * a "Senki" karakterláncot kapja.
+*/
 fgv koszon(szöveg kinek = "Senki")
     ki << "Szia " << kinek << "!" << újsor; 
 vég
