@@ -240,11 +240,11 @@ sub create_function($$$$) {
     my $params      = shift;
     my $head        = ();
 
-    $$line_ref = "$ret_type $fn_name($params)\n{\n";
+    $head = "$ret_type $fn_name($params);\n";
 
     # Cut out the default parameters for the prototype
-    $params =~ s/(=\s*[^,]+)\s*([,\)])/$2/g;
-    $head = "$ret_type $fn_name($params);\n";
+    $params =~ s/\=[^\,\)]+//g;
+    $$line_ref = "$ret_type $fn_name($params)\n{\n";
     push @header, $head;
 }
 
