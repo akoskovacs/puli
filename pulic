@@ -61,7 +61,7 @@ my @header = (
     "#include <ctime>\n",
     "#include <cstdlib>\n",
     "#include <string>\n\n",
-    "using namespace std;\n\n",
+    "using namespace std;\n",
     $randfunc
 );
 
@@ -167,17 +167,17 @@ sub process_file($) {
     print `g++ $out_file -o $bin_name`;
 }
 
-# It replaces everything line-by-line in the @source, if it recognized
-# as a keyword, from the %keywords hash. It protect the strings from
-# the accidental overwriting. The subrountine uses regexes, which cares
-# to replace keywords which aligned at word boundaries, except some
+# Replace everything line-by-line in the @source, in the case when the given word
+# recognised as a keyword -- from the %keywords hash. It protects the strings from
+# accidental overwriting, by saving them to the @strings array. The subrountine uses regexes
+# and takes care to replace keywords which aligned at word boundaries, except some
 # special tokens like ";,<,>,etc".
 sub replace_all {
     my @strings = ();
     foreach my $line (@source) {
-        # Save all strings to the @strings list to protect, from overwriting
-        # when they keyword replacement occures. The "[string]" will replaced 
-        # with the __pulic__string__marker__. Not the most elegant solvage. :-(
+        # Save all strings to the @strings array to protect, from overwriting
+        # when the keyword replacement occures. The "[string]" will be replaced 
+        # with the __pulic__string__marker__. This is not the most elegant solvage. :-(
         while ($line =~ s/\"(.+)\"/__pulic__string__marker__/g) {
             push @strings, $1;
         }
@@ -210,6 +210,8 @@ sub replace_all {
     } # @source
 }
 
+# The return type in the function header can be omitted. Handle these cases
+# and generate the appropriate prototype and definition. 
 sub parse_func($) {
     my $line_ref    = shift;
     if ($$line_ref =~ m/fgv\s+(\w+)\s*\((.*)\)\s*<-\s*(\w+)/) {
@@ -223,10 +225,14 @@ sub parse_func($) {
 
 sub parse_while($) {
     my $line_ref    = shift;
+    # The for and while loops has the same keyword 'amíg'
     $$line_ref =~ s/amíg\s*([^;]*)\s*;([^;]*)\s*;([^;]*)\s*addig/for ($1;$2;$3) {/g;
     $$line_ref =~ s/amíg\s*([^;]*)\s*addig/while ($1) {/g;
 }
 
+# Substitute the function header with the suitable C++ code. Put the
+# created prototype before the main() function. The subroutine _must_ cut out
+# the default parameters from that prototype.
 sub create_function($$$$) {
     my $line_ref    = shift;
     my $ret_type    = shift;
@@ -236,10 +242,8 @@ sub create_function($$$$) {
 
     $$line_ref = "$ret_type $fn_name($params)\n{\n";
 
-    #$params =~ s/=[^,\)]*([,\)])/\1/; # TODO: Make _every_ value usable as default
     # Cut out the default parameters for the prototype
-
-    $params =~ s/=\s*".*"//;    
+    $params =~ s/(=\s*[^,]+)\s*([,\)])/$2/g;
     $head = "$ret_type $fn_name($params);\n";
     push @header, $head;
 }
