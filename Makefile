@@ -1,7 +1,7 @@
 target:
 	@echo "Nothing to do. Just run 'make install' as root to install."
 
-samples: samples/
+examples: samples/
 	$(MAKE) -C samples/
 
 vim:
@@ -15,6 +15,8 @@ help:
 	@echo "make install - Install the pulic complier to the /usr/bin/"
 	@echo "make remove - Remove the pulic complier from the /usr/bin/"
 	@echo "make vim - Install the vim syntax files for the user"
+	@echo "make examples - Complies the exmaple programs in the /samples directory"
+
 install:
 	cp pulic /usr/bin/pulic
 
