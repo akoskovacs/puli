@@ -7,7 +7,7 @@ examples: samples/
 vim:
 	mkdir -p ~/.vim/syntax
 	mkdir -p ~/.vim/ftdetect
-	cp syntax/pu.vim ~/.vim/sytax
+	cp syntax/pu.vim ~/.vim/syntax
 	cp syntax/puli.vim ~/.vim/ftdetect
 	@echo "You must enable plugins and syntax highlighting in your .vimrc"
 
